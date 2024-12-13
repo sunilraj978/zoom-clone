@@ -11,7 +11,7 @@ import React, { useState } from 'react'
 const MeetingRoom = ({params : {id}}:{params:{id:string}}) => {
   const [isSetupComplete, setIsSetUpComplete] = useState(false)
 
-  const {user, isLoaded} = useUser()
+  const {isLoaded} = useUser()
   const {call, isCallLoading} = useGetCallById(id)
 
   if(!isLoaded || isCallLoading) return <Loader />

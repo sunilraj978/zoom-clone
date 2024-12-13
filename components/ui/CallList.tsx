@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useGetCalls } from "@/hooks/useGetCall";
 import { Call, CallRecording } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";

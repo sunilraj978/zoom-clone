@@ -2,18 +2,10 @@ import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
-import { Call, StreamVideoClient, useStreamVideoClient } from "@stream-io/video-react-sdk";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 
 interface MeetingModelProps {
   isOpen: boolean;
@@ -38,59 +30,6 @@ const MeetingModel = ({
   image,
   buttonIcon,
 }: MeetingModelProps) => {
-
-  const router = useRouter()
-  const client = useStreamVideoClient() 
-  const {user} = useUser();
-  const { toast } = useToast();
-
-  const [values, setValues] = useState({
-    dateTime: new Date(),
-    description:'',
-    link:''
-  })
-
-  const [callDetails, setCallDetails] = useState<Call>()
-
-  const createMeeting = async() =>{
-   if(!client || !user) return
-
-   try{
-    const id = crypto.randomUUID()
-    const call = client.call('default', id)
-    
-    if(!call) throw new Error('Failed to create call')
-    
-    const startsAt = values.dateTime.toISOString() || new Date(Date.now()).toISOString()
-    const description = values.description || 'Instant Meeting'
-
-    await call.getOrCreate({
-      data:{
-        starts_at:startsAt,
-        custom:{
-          description
-        }
-      }
-    })
-
-    setCallDetails(call)
-
-    if(!values.description){
-      router.push(`/meetings/${call.id}`)
-    }
-
-    toast({
-      title:"Meeting created successfully"
-    })
-    
-      
-   }catch(error){
-    toast({
-      title: "Meeting created failed",
-    })
-    console.log(error)
-   }
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
